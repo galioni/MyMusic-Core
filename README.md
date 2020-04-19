@@ -1,4 +1,4 @@
-Project for study.
+MyMusic Project
 
 Implementations:
 
