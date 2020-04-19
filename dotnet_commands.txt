@@ -1,0 +1,22 @@
+dotnet new solution
+dotnet new webapi -o MyMusic.Api
+dotnet new classlib -o MyMusic.Core
+dotnet new classlib -o MyMusic.Services
+dotnet new classlib -o MyMusic.Data
+dotnet sln add MyMusic.Api/MyMusic.Api.csproj MyMusic.Core/MyMusic.Core.csproj MyMusic.Data/MyMusic.Data.csproj MyMusic.Services/MyMusic.Services.csproj
+dotnet add MyMusic.Api/MyMusic.Api.csproj reference MyMusic.Core/MyMusic.Core.csproj MyMusic.Services/MyMusic.Services.csproj
+dotnet add MyMusic.Data/MyMusic.Data.csproj reference MyMusic.Core/MyMusic.Core.csproj
+dotnet add MyMusic.Services/MyMusic.Services.csproj reference MyMusic.Core/MyMusic.Core.csproj
+dotnet add MyMusic.Api/MyMusic.Api.csproj reference MyMusic.Services/MyMusic.Services.csproj MyMusic.Core/MyMusic.Core.csproj MyMusic.Data/MyMusic.Data.csproj
+dotnet tool install --global dotnet-ef
+dotnet add MyMusic.Data/MyMusic.Data.csproj package Microsoft.EntityFrameworkCore
+dotnet add MyMusic.Data/MyMusic.Data.csproj package Microsoft.EntityFrameworkCore.Design
+dotnet add MyMusic.Data/MyMusic.Data.csproj package  Microsoft.EntityFrameworkCore.SqlServer
+dotnet ef --startup-project MyMusic.Api/MyMusic.Api.csproj migrations add InitialModel -p MyMusic.Data/MyMusic.Data.csproj
+dotnet ef --startup-project MyMusic.Api/MyMusic.Api.csproj database update
+dotnet ef --startup-project MyMusic.Api/MyMusic.Api.csproj migrations add SeedMusicsAndArtistsTable -p MyMusic.Data/MyMusic.Data.csproj
+dotnet add MyMusic.Api/MyMusic.Api.csproj package Swashbuckle.AspNetCore --version 5.0.0-rc3
+dotnet run -p MyMusic.Api/MyMusic.Api.csproj
+dotnet add MyMusic.Api/MyMusic.Api.csproj package AutoMapper 
+dotnet add MyMusic.Api/MyMusic.Api.csproj package AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add MyMusic.Api/MyMusic.Api.csproj package FluentValidation
